@@ -67,19 +67,25 @@ export async function POST(req: NextRequest) {
     content: `Question: ${lastUser.content}\n\nContext passages:\n\n${context}`,
   };
 
-  const msgStream = anthropic().messages.stream({
+  const msgStream = await anthropic().messages.create({
     model: CHAT_MODEL,
     max_tokens: 1024,
     system: SYSTEM_PROMPT,
     messages: [...historyWithoutLast, userTurnWithContext],
+    stream: true,
   });
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream({
     async start(controller) {
       try {
-        for await (const text of msgStream.textStream) {
-          controller.enqueue(encoder.encode(text));
+        for await (const event of msgStream) {
+          if (
+            event.type === "content_block_delta" &&
+            event.delta.type === "text_delta"
+          ) {
+            controller.enqueue(encoder.encode(event.delta.text));
+          }
         }
       } catch (err: any) {
         controller.enqueue(encoder.encode(`\n\n[stream error: ${err.message}]`));
