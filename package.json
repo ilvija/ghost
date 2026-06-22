@@ -1,0 +1,30 @@
+{
+  "name": "ghost-help-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Salomon-style AI knowledge base over the Ghost Help Center",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "ingest": "node scripts/ingest.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.105.0",
+    "@supabase/supabase-js": "^2.45.4",
+    "next": "14.2.5",
+    "openai": "^4.67.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@mozilla/readability": "^0.5.0",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "dotenv": "^16.4.5",
+    "jsdom": "^24.1.1",
+    "typescript": "^5.5.3"
+  }
+}
