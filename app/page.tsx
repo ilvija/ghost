@@ -113,7 +113,7 @@ export default function Home() {
       <header className="header">
         <div className="logo">G</div>
         <div>
-          <h1>Ghost Help Assistant</h1>
+          <h1>Ghost</h1>
           <p>Answers grounded in the Ghost Help Center</p>
         </div>
       </header>
