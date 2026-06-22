@@ -70,6 +70,12 @@ function extractLocs(xml) {
 }
 
 async function discoverUrls() {
+  // Always start with the bundled list (includes /resources articles not in the help sitemap).
+  const bundled = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "urls.json"), "utf8")
+  );
+
+  let sitemapUrls = [];
   try {
     const indexXml = await fetchText(SITEMAP_INDEX);
     const childMaps = extractLocs(indexXml).filter(
@@ -80,24 +86,23 @@ async function discoverUrls() {
       const xml = await fetchText(m);
       all.push(...extractLocs(xml));
     }
-    const urls = all.filter(
+    sitemapUrls = all.filter(
       (u) =>
         u.startsWith("https://ghost.org/help/") &&
         !u.endsWith("/help/") &&
         !u.includes("/manual-nav")
     );
-    if (urls.length) {
-      console.log(`Discovered ${urls.length} URLs from sitemap.`);
-      return [...new Set(urls)];
+    if (sitemapUrls.length) {
+      console.log(`Discovered ${sitemapUrls.length} URLs from sitemap.`);
     }
-    throw new Error("Sitemap returned no usable URLs");
   } catch (err) {
-    console.warn(`Sitemap discovery failed (${err.message}); using bundled list.`);
-    const fallback = JSON.parse(
-      fs.readFileSync(path.join(ROOT, "data", "urls.json"), "utf8")
-    );
-    return fallback;
+    console.warn(`Sitemap discovery failed (${err.message}); using bundled list only.`);
   }
+
+  // Merge: sitemap (freshest help URLs) + bundled (includes /resources).
+  const merged = [...new Set([...sitemapUrls, ...bundled])];
+  console.log(`Total URLs to ingest: ${merged.length} (${sitemapUrls.length} sitemap + ${bundled.length} bundled, deduped).`);
+  return merged;
 }
 
 // ---------- 2. Extract article ----------
