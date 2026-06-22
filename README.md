@@ -27,7 +27,7 @@ npm install
 ```
 
 ### 2. Configure environment
-A pre-filled `.env.local` is already included, pointing at **sambt94's Project** (`qunrmtryornazloeaydr`) with the Supabase URL and publishable key set. You only need to add two secrets:
+A pre-filled `.env.local` is already included, pointing at (`qunrmtryornazloeaydr`) with the Supabase URL and publishable key set. You only need to add two secrets:
 - `OPENAI_API_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY` — Supabase dashboard → Project Settings → API → `service_role` (used only by the ingest script)
 
