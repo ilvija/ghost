@@ -114,7 +114,7 @@ export default function Home() {
         <div className="logo">G</div>
         <div>
           <h1>Ghost</h1>
-          <p>Answers grounded in the Ghost Help Center</p>
+          <p>Answers grounded in the Ghost Help Center and Ghost Forum </p>
         </div>
       </header>
 
@@ -123,8 +123,8 @@ export default function Home() {
           <div className="empty">
             <h2>Ask anything about Ghost</h2>
             <p>
-              I search the official help center and answer with citations to the
-              source articles.
+              I search the Ghost Help Center and community forum, and answer
+              with citations to the source articles.
             </p>
             <div className="suggestions">
               {SUGGESTIONS.map((s) => (
